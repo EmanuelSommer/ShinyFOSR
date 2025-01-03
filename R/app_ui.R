@@ -3,18 +3,58 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinydashboard
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      theme = bslib::bs_theme(
-        bootswatch = "lux",
-        version = 5
+    dashboardPage(
+      dashboardHeader(title = "Title TBD"),
+      dashboardSidebar(
+        sidebarMenu(
+          box(title = "Target ", width = 12,
+              selectizeInput(
+                "model_sel",
+                "Select Models",
+                choices = c(
+                  "hip_flex_deg",
+                  "hip_abd_deg",
+                  "hip_rot_deg",
+                  "knee_flex_deg",
+                  "ankle_pf_deg",
+                  "ankle_inv_deg",
+                  "grf_ap_nm_per_kg",
+                  "grf_vert_nm_per_kg",
+                  "hip_flex_moment_nm_per_kg",
+                  "hip_abd_moment_nm_per_kg",
+                  "hip_rot_moment_nm_per_kg",
+                  "knee_flex_moment_nm_per_kg",
+                  "ankle_pf_moment_nm_per_kg",
+                  "hip_flex_power_w_per_kg",
+                  "knee_flex_power_w_per_kg",
+                  "ankle_pf_power_w_per_kg"
+                ),
+                multiple = TRUE
+                )
+          ),
+          box(title = "Input New Data", width = 12, status = "primary",
+              numericInput("speed", "Speed", value = 1, min = 0, step = 0.1),
+              numericInput("age", "Age", value = 2, min = 0, step = 1),
+              numericInput("cadence", "Cadence", value = 1, min = 0, step = 0.1),
+              numericInput("height", "Height", value = 3, min = 0, step = 0.1),
+              numericInput("mass", "Mass", value = 0.3, min = 0, step = 0.01),
+              selectInput("sex", "Sex", choices = c("m", "f"), selected = "m"),
+              selectInput("side", "Side", choices = c("left", "right"), selected = "left")
+          )
+        )
       ),
-      golem::golem_welcome_page() # Remove this line to start building your UI
+      dashboardBody(
+        fluidRow(
+          uiOutput("plot_grid")
+        )
+      )
     )
   )
 }

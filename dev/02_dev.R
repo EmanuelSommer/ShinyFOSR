@@ -26,7 +26,7 @@ golem::add_module(name = "name_of_module2", with_test = TRUE) # Name of the modu
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct("helpers", with_test = TRUE)
-golem::add_utils("helpers", with_test = TRUE)
+golem::add_utils("compression_utils", with_test = F)
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
@@ -34,7 +34,7 @@ golem::add_js_file("script")
 golem::add_js_handler("handlers")
 golem::add_css_file("custom")
 golem::add_sass_file("custom")
-golem::add_any_file("file.json")
+golem::add_any_file("models.RData")
 
 ## Add internal datasets ----
 ## If you have data in your package
