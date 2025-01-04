@@ -4,6 +4,9 @@
 # `{ShinyFOSR}`
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ## Installation
@@ -30,29 +33,44 @@ This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2025-01-03 00:39:58 CET"
+#> [1] "2025-01-04 01:37:13 CET"
 ```
 
 Here are the tests results and package coverage:
 
 ``` r
 devtools::check(quiet = TRUE)
-#> ══ Documenting ═════════════════════════════════════════════════════════════════
-#> ℹ Installed roxygen2 version (7.3.2) doesn't match required (7.1.1)
-#> ✖ `check()` will not re-document this package
+#> ℹ Loading ShinyFOSR
 #> ── R CMD check results ─────────────────────────────── ShinyFOSR 0.0.0.9000 ────
-#> Duration: 9.5s
+#> Duration: 18s
 #> 
-#> ❯ checking for future file timestamps ... NOTE
-#>   unable to verify current time
+#> ❯ checking installed package size ... NOTE
+#>     installed size is 29.5Mb
+#>     sub-directories of 1Mb or more:
+#>       app  29.4Mb
 #> 
 #> ❯ checking DESCRIPTION meta-information ... NOTE
 #>   Malformed Description field: should contain one or more complete sentences.
 #> 
-#> 0 errors ✔ | 0 warnings ✔ | 2 notes ✖
-```
-
-``` r
-covr::package_coverage()
-#> Error in loadNamespace(x): there is no package called 'covr'
+#> ❯ checking dependencies in R code ... NOTE
+#>   Namespace in Imports field not imported from: ‘refund’
+#>     All declared Imports should be used.
+#> 
+#> ❯ checking R code for possible problems ... NOTE
+#>   app_server : <anonymous>: no visible binding for global variable
+#>     ‘models’
+#>   app_server : <anonymous>: no visible global function definition for
+#>     ‘predict’
+#>   app_server: no visible binding for global variable ‘y’
+#>   app_server: no visible binding for global variable ‘model’
+#>   compress_single_model: no visible global function definition for
+#>     ‘object.size’
+#>   Undefined global functions or variables:
+#>     model models object.size predict y
+#>   Consider adding
+#>     importFrom("stats", "predict")
+#>     importFrom("utils", "object.size")
+#>   to your NAMESPACE file.
+#> 
+#> 0 errors ✔ | 0 warnings ✔ | 4 notes ✖
 ```

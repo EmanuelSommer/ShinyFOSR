@@ -14,7 +14,7 @@ run_app <- function(
   uiPattern = "/",
   ...
 ) {
-  # thematic::thematic_shiny(font = "auto")
+  thematic::thematic_shiny(font = "auto")
   with_golem_options(
     app = shinyApp(
       ui = app_ui,

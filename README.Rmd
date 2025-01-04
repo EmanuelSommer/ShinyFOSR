@@ -55,6 +55,3 @@ devtools::check(quiet = TRUE)
 unloadNamespace("ShinyFOSR")
 ```
 
-```{r, error = TRUE}
-covr::package_coverage()
-```
