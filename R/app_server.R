@@ -20,6 +20,26 @@ app_server <- function(input, output, session) {
     )
   })
 
+  multiplot_state <- reactiveVal("Single")
+  observe({
+    req(input$multiplot)
+    multiplot_state(input$multiplot)
+  })
+
+  output$multiplot_option <- renderUI({
+    req(input$model_sel)
+    if (length(input$model_sel) > 1) {
+      fluidRow(
+        column(12, selectInput(
+          "multiplot",
+          "Multiplot View",
+          c("Single", "Facetted"),
+          selected = multiplot_state()
+        ))
+      )
+    }
+  })
+
   output$main_plot <- renderPlot({
     req(input$model_sel)
 
@@ -34,11 +54,11 @@ app_server <- function(input, output, session) {
       data.frame(
         t = seq_len(ncol(preds[[model_name]])) / ncol(preds[[model_name]]) * 100,
         y = preds[[model_name]][1, ],
-        model = model_name
+        model = beautify_plot_label(model_name)
       )
     }))
 
-    if (length(input$model_sel) > 1) {
+    if (length(input$model_sel) > 1 && multiplot_state() == "Single") {
       ggplot(plot_data, aes(x = t, y = y, color = model)) +
         geom_line(size = 1.2) +
         scale_x_continuous(
@@ -58,6 +78,34 @@ app_server <- function(input, output, session) {
           text = element_text(size = 25, color = primary_plot_text_col),
           axis.text = element_text(size = 22, color = primary_plot_text_col)
         )
+    } else if (length(input$model_sel) > 1 && multiplot_state() == "Facetted") {
+      ggplot(plot_data, aes(x = t, y = y)) +
+        geom_line(size = 1.2) +
+        scale_x_continuous(
+          breaks = seq(0, 100, by = 10),
+          labels = function(x) paste0(x, "%")
+        ) +
+        labs(
+          y = "",
+          x = "Gait Cycle",
+        ) +
+        facet_wrap(
+          ~model, scales = "free_y",
+          ncol = ifelse(
+            length(input$model_sel) <= 12,
+            ifelse(length(input$model_sel) > 4, 3, 2),
+            4
+          )
+        ) +
+        theme_minimal(base_size = 16) +
+        theme(
+          legend.position = "right",
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_line(color = "#E0E0E0", size = 0.1),
+          text = element_text(size = 25, color = primary_plot_text_col),
+          axis.text = element_text(size = max(22 - 2.5 * length(input$model_sel), 10), color = primary_plot_text_col),
+          strip.text = element_text(size = 22, color = primary_plot_text_col)
+        )
     } else {
       ggplot(plot_data, aes(x = t, y = y)) +
         geom_line(size = 1.2) +
@@ -66,7 +114,7 @@ app_server <- function(input, output, session) {
           labels = function(x) paste0(x, "%")
         ) +
         labs(
-          y = paste0(input$model_sel),
+          y = beautify_plot_label(input$model_sel),
           x = "Gait Cycle",
         ) +
         theme_minimal(base_size = 16) +

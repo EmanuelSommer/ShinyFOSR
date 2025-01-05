@@ -40,7 +40,6 @@ app_ui <- function(request) {
           ),
           multiple = TRUE
         ),
-        # horizontal line,
         shiny::tags$hr(),
         h4("Input New Data"),
         fluidRow(
@@ -55,7 +54,9 @@ app_ui <- function(request) {
         fluidRow(
           column(6, selectInput("sex", "Sex", choices = c("m", "f"), selected = "m")),
           column(6, selectInput("side", "Side", choices = c("left", "right"), selected = "left"))
-        )
+        ),
+        shiny::tags$hr(),
+        uiOutput("multiplot_option")
       ),
 
       h4("Estimated Curve(s)"),

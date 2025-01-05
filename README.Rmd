@@ -23,8 +23,8 @@ output: github_document
 
 You can install the development version of `{ShinyFOSR}` like so:
 
-```{r}
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+```{r, eval = FALSE}
+devtools::install_github("EmanuelSommer/ShinyFOSR")
 ```
 
 ## Run
@@ -43,15 +43,5 @@ This README has been compiled on the
 
 ```{r}
 Sys.time()
-```
-
-Here are the tests results and package coverage:
-
-```{r, error = TRUE}
-devtools::check(quiet = TRUE)
-```
-
-```{r echo = FALSE}
-unloadNamespace("ShinyFOSR")
 ```
 
