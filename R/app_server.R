@@ -9,6 +9,15 @@ app_server <- function(input, output, session) {
   models <- readRDS(system.file("app/www/train_mod_sparse.RDS", package = "ShinyFOSR"))
   ylabels <- readRDS(system.file("app/www/ylabels.RDS", package = "ShinyFOSR"))
   primary_plot_text_col <- "#C8DEB3"
+  names(models) <- ylabels
+  output$model_sel_ui <- renderUI({
+    selectizeInput(
+      "model_sel",
+      "",
+      choices = ylabels,
+      multiple = TRUE
+    )
+  })
 
   new_data <- reactive({
     data.frame(
@@ -19,7 +28,7 @@ app_server <- function(input, output, session) {
       wt = I(input$weight),
       sex = I(factor(ifelse(input$sex == "Female", "F", "M"), levels = levels_cat$sex)),
       side = I(factor(ifelse(input$side == "left", "L", "R") , levels = levels_cat$side)),
-      id = I(factor(levels_cat$id[1], levels = levels_cat$id))
+      id = I(factor("HAC021", levels = c("HAC021", levels_cat$id)))
     )
   })
 

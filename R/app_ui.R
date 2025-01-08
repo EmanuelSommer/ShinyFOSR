@@ -17,29 +17,7 @@ app_ui <- function(request) {
       sidebar = sidebar(
         width = "30%",
         h4("Select Target(s)"),
-        selectizeInput(
-          "model_sel",
-          "",
-          choices = c(
-            "rotationhipflex",
-            "rotationhipabad",
-            "rotationhiprot",
-            "rotationkneeflex",
-            "rotationankleflex",
-            "rotationanklepron",
-            "grf_ap",
-            "grf_vert",
-            "momenthipflex",
-            "momenthipabad",
-            "momenthiprot",
-            "momentkneeflex",
-            "momentankleflex",
-            "powerhipflex",
-            "powerkneeflex",
-            "powerankleflex"
-          ),
-          multiple = TRUE
-        ),
+        uiOutput("model_sel_ui"),
         shiny::tags$hr(),
         h4("Input New Data"),
         fluidRow(
