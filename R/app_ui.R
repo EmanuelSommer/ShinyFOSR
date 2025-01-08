@@ -43,13 +43,13 @@ app_ui <- function(request) {
         shiny::tags$hr(),
         h4("Input New Data"),
         fluidRow(
-          column(4, numericInput("speed", "Speed", value = 1, min = 0, step = 0.1)),
-          column(4, numericInput("age", "Age", value = 20, min = 0, step = 1)),
-          column(4, numericInput("cadence", "Cadence", value = 1, min = 0, step = 0.1))
+          column(4, numericInput("speed", "Speed", value = 1.25, min = 0, step = 0.01)),
+          column(4, numericInput("age", "Age", value = 41, min = 0, step = 1)),
+          column(4, numericInput("cadence", "Cadence", value = 115, min = 0, step = 0.1))
         ),
         fluidRow(
-          column(6, numericInput("height", "Height", value = 160, min = 0, step = 0.1)),
-          column(6, numericInput("weight", "Weight", value = 60, min = 0, step = 0.1))
+          column(6, numericInput("height", "Height", value = 1.60, min = 0, step = 0.01)),
+          column(6, numericInput("weight", "Weight", value = 65, min = 0, step = 0.1))
         ),
         fluidRow(
           column(6, selectInput("sex", "Sex", choices = c("Male", "Female"), selected = "Female")),

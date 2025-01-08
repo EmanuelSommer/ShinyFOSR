@@ -5,9 +5,9 @@
 #' @import shiny ggplot2
 #' @noRd
 app_server <- function(input, output, session) {
-  levels_cat <- readRDS("inst/app/www/levels_cat.RDS")
-  models <- readRDS("inst/app/www/train_mod_sparse.RDS")
-  ylabels <- readRDS("inst/app/www/ylabels.RDS")
+  levels_cat <- readRDS(system.file("app/www/levels_cat.RDS", package = "ShinyFOSR"))
+  models <- readRDS(system.file("app/www/train_mod_sparse.RDS", package = "ShinyFOSR"))
+  ylabels <- readRDS(system.file("app/www/ylabels.RDS", package = "ShinyFOSR"))
   primary_plot_text_col <- "#C8DEB3"
 
   new_data <- reactive({
@@ -19,7 +19,7 @@ app_server <- function(input, output, session) {
       wt = I(input$weight),
       sex = I(factor(ifelse(input$sex == "Female", "F", "M"), levels = levels_cat$sex)),
       side = I(factor(ifelse(input$side == "left", "L", "R") , levels = levels_cat$side)),
-      id = I(factor("HAC058", levels = levels_cat$id))
+      id = I(factor(levels_cat$id[1], levels = levels_cat$id))
     )
   })
 
@@ -50,7 +50,7 @@ app_server <- function(input, output, session) {
       models[[model_name]]
     })
     preds <- lapply(selected_models, function(m) {
-      predict(
+      refund:::predict.pffr(
         m,
         newdata = new_data(),
         type = "response",
