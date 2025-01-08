@@ -21,22 +21,22 @@ app_ui <- function(request) {
           "model_sel",
           "",
           choices = c(
-            "hip_flex_deg",
-            "hip_abd_deg",
-            "hip_rot_deg",
-            "knee_flex_deg",
-            "ankle_pf_deg",
-            "ankle_inv_deg",
-            "grf_ap_nm_per_kg",
-            "grf_vert_nm_per_kg",
-            "hip_flex_moment_nm_per_kg",
-            "hip_abd_moment_nm_per_kg",
-            "hip_rot_moment_nm_per_kg",
-            "knee_flex_moment_nm_per_kg",
-            "ankle_pf_moment_nm_per_kg",
-            "hip_flex_power_w_per_kg",
-            "knee_flex_power_w_per_kg",
-            "ankle_pf_power_w_per_kg"
+            "rotationhipflex",
+            "rotationhipabad",
+            "rotationhiprot",
+            "rotationkneeflex",
+            "rotationankleflex",
+            "rotationanklepron",
+            "grf_ap",
+            "grf_vert",
+            "momenthipflex",
+            "momenthipabad",
+            "momenthiprot",
+            "momentkneeflex",
+            "momentankleflex",
+            "powerhipflex",
+            "powerkneeflex",
+            "powerankleflex"
           ),
           multiple = TRUE
         ),
@@ -44,15 +44,15 @@ app_ui <- function(request) {
         h4("Input New Data"),
         fluidRow(
           column(4, numericInput("speed", "Speed", value = 1, min = 0, step = 0.1)),
-          column(4, numericInput("age", "Age", value = 2, min = 0, step = 1)),
+          column(4, numericInput("age", "Age", value = 20, min = 0, step = 1)),
           column(4, numericInput("cadence", "Cadence", value = 1, min = 0, step = 0.1))
         ),
         fluidRow(
-          column(6, numericInput("height", "Height", value = 3, min = 0, step = 0.1)),
-          column(6, numericInput("mass", "Mass", value = 0.3, min = 0, step = 0.01))
+          column(6, numericInput("height", "Height", value = 160, min = 0, step = 0.1)),
+          column(6, numericInput("weight", "Weight", value = 60, min = 0, step = 0.1))
         ),
         fluidRow(
-          column(6, selectInput("sex", "Sex", choices = c("m", "f"), selected = "m")),
+          column(6, selectInput("sex", "Sex", choices = c("Male", "Female"), selected = "Female")),
           column(6, selectInput("side", "Side", choices = c("left", "right"), selected = "left"))
         ),
         shiny::tags$hr(),

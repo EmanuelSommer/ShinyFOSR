@@ -5,7 +5,9 @@
 #' @import shiny ggplot2
 #' @noRd
 app_server <- function(input, output, session) {
-  load("inst/app/www/models.RData")
+  levels_cat <- readRDS("inst/app/www/levels_cat.RDS")
+  models <- readRDS("inst/app/www/train_mod_sparse.RDS")
+  ylabels <- readRDS("inst/app/www/ylabels.RDS")
   primary_plot_text_col <- "#C8DEB3"
 
   new_data <- reactive({
@@ -13,10 +15,11 @@ app_server <- function(input, output, session) {
       speed = I(input$speed),
       age = I(input$age),
       cadence = I(input$cadence),
-      height = I(input$height),
-      mass = I(input$mass),
-      sex = I(factor(input$sex, levels = c("m", "f"))),
-      side = I(factor(input$side, levels = c("left", "right")))
+      ht = I(input$height),
+      wt = I(input$weight),
+      sex = I(factor(ifelse(input$sex == "Female", "F", "M"), levels = levels_cat$sex)),
+      side = I(factor(ifelse(input$side == "left", "L", "R") , levels = levels_cat$side)),
+      id = I(factor("HAC058", levels = levels_cat$id))
     )
   })
 
@@ -46,7 +49,15 @@ app_server <- function(input, output, session) {
     selected_models <- lapply(input$model_sel, function(model_name) {
       models[[model_name]]
     })
-    preds <- lapply(selected_models, function(m) predict(m, newdata = new_data()))
+    preds <- lapply(selected_models, function(m) {
+      predict(
+        m,
+        newdata = new_data(),
+        type = "response",
+        se.fit = FALSE,
+        exclude = c("s(id)")
+      )
+    })
     names(preds) <- input$model_sel
 
     # Combine predictions into a single data frame
@@ -66,7 +77,7 @@ app_server <- function(input, output, session) {
           labels = function(x) paste0(x, "%")
         ) +
         labs(
-          x = "Gait Cycle",
+          x = "Gait Cycle (0-100%)",
           y = "",
           color = "Target"
         ) +
@@ -87,7 +98,7 @@ app_server <- function(input, output, session) {
         ) +
         labs(
           y = "",
-          x = "Gait Cycle",
+          x = "Gait Cycle (0-100%)",
         ) +
         facet_wrap(
           ~model, scales = "free_y",
@@ -115,7 +126,7 @@ app_server <- function(input, output, session) {
         ) +
         labs(
           y = beautify_plot_label(input$model_sel),
-          x = "Gait Cycle",
+          x = "Gait Cycle (0-100%)",
         ) +
         theme_minimal(base_size = 16) +
         theme(
