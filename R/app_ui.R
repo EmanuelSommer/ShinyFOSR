@@ -21,27 +21,64 @@ app_ui <- function(request) {
         shiny::tags$hr(),
         h4("Input New Data"),
         fluidRow(
-          column(4, numericInput("speed", "Speed", value = 1.25, min = 0, step = 0.01)),
-          column(4, numericInput("age", "Age", value = 41, min = 0, step = 1)),
-          column(4, numericInput("cadence", "Cadence", value = 115, min = 0, step = 0.1))
+          column(4, numericInput("speed", "Speed (m/s)", value = 1.25, min = 0, step = 0.01)),
+          column(4, numericInput("age", "Age (yrs)", value = 41, min = 0, step = 1)),
+          column(4, numericInput("cadence", "Cadence (spm)", value = 115, min = 0, step = 0.1))
         ),
         fluidRow(
-          column(6, numericInput("height", "Height", value = 1.60, min = 0, step = 0.01)),
-          column(6, numericInput("weight", "Weight", value = 65, min = 0, step = 0.1))
+          column(6, numericInput("height", "Height (m)", value = 1.60, min = 0, step = 0.01)),
+          column(6, numericInput("weight", "Weight (kg)", value = 65, min = 0, step = 0.1))
         ),
         fluidRow(
           column(6, selectInput("sex", "Sex", choices = c("Male", "Female"), selected = "Female")),
           column(6, selectInput("side", "Side", choices = c("left", "right"), selected = "left"))
         ),
         shiny::tags$hr(),
-        uiOutput("multiplot_option")
+        h4("Options"),
+        uiOutput("gait_cycle_selection"),
+        uiOutput("multiplot_option"),
+        fluidRow(
+          column(6, uiOutput("cond_add_prediction")),
+          column(6, uiOutput("cond_clear_table"))
+        ),
+        fluidRow(
+          column(6, uiOutput("cond_download_csv")),
+          column(6, uiOutput("cond_download_plot"))
+        ),
+        shiny::tags$hr(),
+        h4("Citation"),
+        p("Please cite the following paper when using this application:"),
+        p(
+          a(
+            "LOREM IPSUM",
+            href = "tbd",
+            target = "_blank"
+          )
+        )
       ),
 
-      h4("Estimated Curve(s)"),
-      shiny::tags$hr(),
+      # h4("Estimated Curve(s)"),
+      # shiny::tags$hr(),
       fluidRow(
         column(1),
-        column(10, plotOutput("main_plot", height = "600px")),
+        column(
+          10,
+          tabBox(
+            id = "tabset", width = 12,
+            tabPanel(
+              "Estimated Curve(s)", icon = icon("chart-line"),
+              br(),
+              uiOutput("no_target_infobox"),
+              plotOutput("main_plot", height = "600px")
+            ),
+            tabPanel(
+              "Table", icon = icon("table"),
+              br(),
+              uiOutput("no_data_infobox"),
+              tableOutput("predictions_table")
+            )
+          )
+        ),
         column(1)
       ),
 
@@ -56,7 +93,7 @@ app_ui <- function(request) {
             href = "https://github.com/EmanuelSommer/ShinyFOSR", target = "_blank",
             bsicons::bs_icon("github", style = "color: #24292f;")
           )
-        )
+      )
     )
   )
 }

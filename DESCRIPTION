@@ -9,6 +9,7 @@ Imports:
     bsicons,
     bslib,
     config,
+    DT,
     ggplot2,
     golem,
     refund,
