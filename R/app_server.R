@@ -234,7 +234,7 @@ app_server <- function(input, output, session) {
   output$no_target_infobox <- renderUI({
     req(length(input$model_sel) == 0)
     value_box(
-      title = "",
+      title = "Ready When You Are",
       value = "Select target(s) to get started!",
       showcase = icon("rocket")
     )
