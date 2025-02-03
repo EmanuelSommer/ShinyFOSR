@@ -54,6 +54,12 @@ app_ui <- function(request) {
             href = "tbd",
             target = "_blank"
           )
+        ),
+        shiny::radioButtons(
+          "ci_display",
+          "Display CIs?",
+          choices = c("Yes (Only use if self-hosted!)", "No"),
+          selected = "No"
         )
       ),
 
