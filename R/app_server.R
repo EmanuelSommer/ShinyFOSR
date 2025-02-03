@@ -7,6 +7,7 @@
 app_server <- function(input, output, session) {
   levels_cat <- readRDS(system.file("app/www/levels_cat.RDS", package = "ShinyFOSR"))
   models <- readRDS(system.file("app/www/train_mod_sparse.RDS", package = "ShinyFOSR"))
+  # ! models <- readRDS(system.file("app/www/train_mod_sparse_sd.RDS", package = "ShinyFOSR"))
   ylabels <- readRDS(system.file("app/www/ylabels.RDS", package = "ShinyFOSR"))
   primary_plot_text_col <- "#C8DEB3"
   names(models) <- ylabels
@@ -80,12 +81,11 @@ app_server <- function(input, output, session) {
         m,
         newdata = new_data(),
         type = "response",
-        se.fit = FALSE,
+        se.fit = FALSE, # ! TRUE,
         exclude = c("s(id)")
       )
     })
     names(preds) <- input$model_sel
-
     do.call(rbind, lapply(input$model_sel, function(model_name) {
       data.frame(
         t = seq_len(ncol(preds[[model_name]])) / ncol(preds[[model_name]]) * 100,
@@ -93,6 +93,17 @@ app_server <- function(input, output, session) {
         model = beautify_plot_label(model_name)
       )
     }))
+    # ! do.call(rbind, lapply(input$model_sel, function(model_name) {
+    #   fit <- preds[[model_name]]$fit
+    #   se <- preds[[model_name]]$se.fit
+    #   data.frame(
+    #     t = seq_len(ncol(fit)) / ncol(fit) * 100,
+    #     y = fit[1, ],
+    #     ymin = fit[1, ] + qnorm(0.025) * se[1, ],  # Lower confidence interval
+    #     ymax = fit[1, ] + qnorm(0.975) * se[1, ],  # Upper confidence interval
+    #     model = beautify_plot_label(model_name)
+    #   )
+    # }))
   })
 
   output$gait_cycle_selection <- renderUI({
@@ -119,6 +130,7 @@ app_server <- function(input, output, session) {
     for (sel_model in input$model_sel) {
       pred <- plot_data()[plot_data()$t == gait_cycle_selection() & plot_data()$model == beautify_plot_label(sel_model), ]
       colnames(pred) <- c("gait_cycle", "prediction", "target")
+      # ! colnames(pred) <- c("gait_cycle", "prediction", "95% CI lower", "95% CI upper", "target")
       new_pred_data <- cbind(
         new_data()[, 1:(ncol(new_data()) - 1)],
         pred
@@ -143,6 +155,7 @@ app_server <- function(input, output, session) {
 
     if (length(input$model_sel) > 1 && multiplot_state() == "Single") {
       ggplot(plot_data(), aes(x = t, y = y, color = model)) +
+        # ! geom_ribbon(aes(ymin = ymin, ymax = ymax), alpha = 0.2) +
         geom_line(size = 1.2) +
         geom_vline(xintercept = gait_cycle_selection(), linetype = "dashed", color = "#DB4433") +
         scale_x_continuous(
@@ -164,6 +177,7 @@ app_server <- function(input, output, session) {
         )
     } else if (length(input$model_sel) > 1 && multiplot_state() == "Facetted") {
       ggplot(plot_data(), aes(x = t, y = y)) +
+        # ! geom_ribbon(aes(ymin = ymin, ymax = ymax), alpha = 0.2, fill = "#C8DEB3", color = NA) +
         geom_line(size = 1.2) +
         geom_vline(xintercept = gait_cycle_selection(), linetype = "dashed", color = "#DB4433") +
         scale_x_continuous(
@@ -195,6 +209,7 @@ app_server <- function(input, output, session) {
         )
     } else {
       ggplot(plot_data(), aes(x = t, y = y)) +
+        # ! geom_ribbon(aes(ymin = ymin, ymax = ymax), alpha = 0.2, fill = "#C8DEB3", color = NA) +
         geom_line(size = 1.2) +
         geom_vline(xintercept = gait_cycle_selection(), linetype = "dashed", color = "#DB4433") +
         scale_x_continuous(

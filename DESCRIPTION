@@ -12,6 +12,7 @@ Imports:
     DT,
     ggplot2,
     golem,
+    pkgload,
     refund,
     shiny,
     shinydashboard,
