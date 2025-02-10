@@ -11,7 +11,7 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 
 ## About
 
-You are reading the doc about version : 0.0.0.9000
+You are reading the doc about version : 0.0.1
 
 TBD
 
@@ -78,5 +78,5 @@ This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2025-02-04 00:15:23 CET"
+#> [1] "2025-02-04 00:40:10 CET"
 ```
