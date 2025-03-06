@@ -1,9 +1,9 @@
 Package: ShinyFOSR
-Title: TBD
+Title: Predicting normative walking biomechanics across the lifespan using seven simple features.
 Version: 0.0.1
 Authors@R: 
     person("Emanuel", "Sommer", , "emanuel.sommer@lmu.de", role = c("aut", "cre"))
-Description: TBD
+Description: Interactive dashboard for the detailed exploration of the functional regression models for predicting normative walking biomechanics across the lifespan using seven simple features (Liew et al. 2025).
 License: MIT + file LICENSE
 Imports: 
     bsicons,

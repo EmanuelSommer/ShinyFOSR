@@ -13,7 +13,7 @@ output: github_document
 )
 ```
 
-# `{ShinyFOSR}`
+# `{ShinyFOSR}` <a href='https://github.com/EmanuelSommer/ShinyFOSR'><img src='inst/app/www/university_of_essex_logo.gif' align="right" width="20%" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
@@ -22,9 +22,9 @@ output: github_document
 
 ## About
 
-You are reading the doc about version : `r golem::pkg_version()`
+You are reading the doc about version: `r golem::pkg_version()`
 
-TBD
+`{ShinyFOSR}` is a Shiny app that allows users to interactively explore the functional regression models presented in the paper *Predicting normative walking biomechanics across the lifespan using seven simple features* by Liew et al. (2025).
 
 A [**free online version**](https://esommer.shinyapps.io/ShinyFOSR/) is available for testing. 
 

@@ -13,7 +13,7 @@ app_ui <- function(request) {
     # Your application UI logic
     page_sidebar(
       theme = bs_theme(bootswatch = "lux", primary = "#DB4433", bg = "#332B3F", fg = "#C8DEB3"),
-      title = "Fancy Functional Dashboard",
+      title = "Predicting normative walking biomechanics across the lifespan",
       sidebar = sidebar(
         width = "30%",
         h4("Select Target(s)"),
@@ -60,6 +60,12 @@ app_ui <- function(request) {
           "Display CIs?",
           choices = c("Yes (Only use if self-hosted!)", "No"),
           selected = "No"
+        ),
+        shiny::radioButtons(
+          "ci_mode",
+          "CI Mode",
+          choices = c("95%", "1SD", "2SD"),
+          selected = "95%"
         )
       ),
 

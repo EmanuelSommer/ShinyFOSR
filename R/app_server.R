@@ -6,7 +6,24 @@
 #' @noRd
 app_server <- function(input, output, session) {
   levels_cat <- readRDS(system.file("app/www/levels_cat.RDS", package = "ShinyFOSR"))
-  ylabels <- readRDS(system.file("app/www/ylabels.RDS", package = "ShinyFOSR"))
+  ylabels <- c(
+    "Hip Sagittal Angle (°)",
+    "Hip Frontal Angle (°)",
+    "Hip Transverse Angle (°)",
+    "Knee Sagittal Angle (°)",
+    "Ankle Sagittal Angle (°)",
+    "Ankle Frontal Angle (°)",
+    "GRF AP (N/kg)",
+    "GRF Vertical (N/kg)",
+    "Hip Sagittal Moment (Nm/kg)",
+    "Hip Frontal Moment (Nm/kg)",
+    "Hip Transverse Moment (Nm/kg)",
+    "Knee Sagittal Moment (Nm/kg)",
+    "Ankle Sagittal Moment (Nm/kg)",
+    "Hip Sagittal Power (W/kg)",
+    "Knee Sagittal Power (W/kg)",
+    "Ankle Sagittal Power (W/kg)"
+  )
   models <- reactive({
     if (input$ci_display == "Yes (Only use if self-hosted!)") {
       m <- readRDS(system.file("app/www/train_mod_sparse_sd.RDS", package = "ShinyFOSR"))
@@ -79,6 +96,8 @@ app_server <- function(input, output, session) {
 
   plot_data <- reactive({
     req(input$model_sel)
+    req(input$ci_display)
+    req(input$ci_mode)
     selected_models <- lapply(input$model_sel, function(model_name) {
       models()[[model_name]]
     })
@@ -109,11 +128,19 @@ app_server <- function(input, output, session) {
       if (input$ci_display == "Yes (Only use if self-hosted!)") {
         fit <- preds[[model_name]]$fit
         se <- preds[[model_name]]$se.fit
+        ci_multiplier <- switch(
+          input$ci_mode,
+          "95%" = c(qnorm(0.025), qnorm(0.975)),
+          "1SD" = c(-1, 1),
+          "2SD" = c(-2, 2)
+        )
+
         data.frame(
           t = seq_len(ncol(fit)) / ncol(fit) * 100,
           y = fit[1, ],
-          ymin = fit[1, ] + qnorm(0.025) * se[1, ],  # Lower confidence interval
-          ymax = fit[1, ] + qnorm(0.975) * se[1, ],  # Upper confidence interval
+          ymin = fit[1, ] + ci_multiplier[1] * se[1, ],  # Lower confidence interval
+          ymax = fit[1, ] + ci_multiplier[2] * se[1, ],  # Upper confidence interval
+          ci_mode = input$ci_mode,
           model = beautify_plot_label(model_name)
         )
       } else {
@@ -150,7 +177,7 @@ app_server <- function(input, output, session) {
     for (sel_model in input$model_sel) {
       pred <- plot_data()[plot_data()$t == gait_cycle_selection() & plot_data()$model == beautify_plot_label(sel_model), ]
       if (input$ci_display == "Yes (Only use if self-hosted!)") {
-        colnames(pred) <- c("gait_cycle", "prediction", "95% CI lower", "95% CI upper", "target")
+        colnames(pred) <- c("gait_cycle", "prediction", "95% CI lower", "95% CI upper", "CI Type", "target")
       } else {
         colnames(pred) <- c("gait_cycle", "prediction", "target")
       }
@@ -175,7 +202,7 @@ app_server <- function(input, output, session) {
   main_plot_object <- reactive({
     req(input$model_sel)
     req(input$gait_cycle_selection)
-    print(input$ci_display)
+    req(input$ci_display)
     if (length(input$model_sel) > 1 && multiplot_state() == "Single") {
       p <- ggplot(plot_data(), aes(x = t, y = y, color = model))
       if (input$ci_display == "Yes (Only use if self-hosted!)") {

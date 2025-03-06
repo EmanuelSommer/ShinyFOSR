@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `{ShinyFOSR}`
+# `{ShinyFOSR}` <a href='https://github.com/EmanuelSommer/ShinyFOSR'><img src='inst/app/www/university_of_essex_logo.gif' align="right" width="20%" /></a>
 
 <!-- badges: start -->
 
@@ -11,9 +11,12 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 
 ## About
 
-You are reading the doc about version : 0.0.1
+You are reading the doc about version: 0.0.1
 
-TBD
+`{ShinyFOSR}` is a Shiny app that allows users to interactively explore
+the functional regression models presented in the paper *Predicting
+normative walking biomechanics across the lifespan using seven simple
+features* by Liew et al. (2025).
 
 A [**free online version**](https://esommer.shinyapps.io/ShinyFOSR/) is
 available for testing.
@@ -78,5 +81,5 @@ This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2025-02-04 00:40:10 CET"
+#> [1] "2025-03-06 06:26:28 CET"
 ```
