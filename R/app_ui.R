@@ -46,15 +46,21 @@ app_ui <- function(request) {
           column(6, uiOutput("cond_download_plot"))
         ),
         shiny::tags$hr(),
-        h4("Citation"),
-        p("Please cite the following paper when using this application:"),
+        h4("Reference:"),
         p(
-          a(
-            "LOREM IPSUM",
-            href = "tbd",
-            target = "_blank"
-          )
+          "This dashboard allows for interactive movement impairment analysis based on",
+          tags$em("Predicting normative walking biomechanics across the lifespan using seven simple features"),
+          "by Liew et al. (2025)."
         ),
+        # h4("Citation"),
+        # p("Please cite the following paper when using this application:"),
+        # p(
+        #   a(
+        #     "LOREM IPSUM",
+        #     href = "tbd",
+        #     target = "_blank"
+        #   )
+        # ),
         shiny::radioButtons(
           "ci_display",
           "Display CIs?",
