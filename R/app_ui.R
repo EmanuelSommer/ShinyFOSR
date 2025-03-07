@@ -39,11 +39,14 @@ app_ui <- function(request) {
         uiOutput("multiplot_option"),
         fluidRow(
           column(6, uiOutput("cond_add_prediction")),
-          column(6, uiOutput("cond_clear_table"))
+          column(6, uiOutput("cond_add_all_predictions"))
         ),
         fluidRow(
           column(6, uiOutput("cond_download_csv")),
           column(6, uiOutput("cond_download_plot"))
+        ),
+        fluidRow(
+          column(6, uiOutput("cond_clear_table"))
         ),
         shiny::tags$hr(),
         h4("Reference:"),

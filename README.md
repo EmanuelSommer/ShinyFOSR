@@ -32,8 +32,10 @@ available for testing.
 ### Fully Fledged Version
 
 For the full version that also supports Confidence Intervals (CI) you
-need to download the large model files from [HERE TBD](). Follow the
-instructions below to install the package and run the app.
+need to download the file containing the models with enhanced
+uncertainty quantification capabilities from [this permanent
+link](train_mod_sparse_sd.RDS). Follow the instructions below to install
+the package and run the app.
 
 1.  Clone the repository to your local machine and navigate to the
     directory in your terminal.
@@ -43,7 +45,8 @@ git clone
 cd ShinyFOSR
 ```
 
-2.  Place the downloaded models into the `inst/app/www/` directory.
+2.  Place the downloaded file `train_mod_sparse_sd.RDS` into the
+    `inst/app/www/` directory.
 3.  Install the dependencies using `renv`.
 
 ``` r
@@ -81,5 +84,5 @@ This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2025-03-06 06:26:28 CET"
+#> [1] "2025-03-07 16:50:09 CET"
 ```

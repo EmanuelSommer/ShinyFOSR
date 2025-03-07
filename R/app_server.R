@@ -79,11 +79,15 @@ app_server <- function(input, output, session) {
 
   output$cond_add_prediction <- renderUI({
     req(input$model_sel)
-    actionButton("add_prediction", "Add predictions to table.", icon = icon("plus"))
+    actionButton("add_prediction", "Add single prediction to table.", icon = icon("plus"))
+  })
+  output$cond_add_all_predictions <- renderUI({
+    req(input$model_sel)
+    actionButton("add_all_predictions", "Add all predictions to table.", icon = icon("plus"))
   })
   output$cond_clear_table <- renderUI({
     req(input$model_sel)
-    actionButton("clear_table", "Clear Table", icon = icon("trash"))
+    actionButton("clear_table", "Clear table", icon = icon("trash"))
   })
   output$cond_download_csv <- renderUI({
     req(input$model_sel)
@@ -183,6 +187,30 @@ app_server <- function(input, output, session) {
       }
       new_pred_data <- cbind(
         new_data()[, 1:(ncol(new_data()) - 1)],
+        pred
+      )
+      if (nrow(reactivity_data()) == 0) {
+        reactivity_data(new_pred_data)
+      } else {
+        reactivity_data(rbind(
+          reactivity_data(),
+          new_pred_data
+        ))
+      }
+    }
+  })
+  # now save all t to the prediction table at once
+  observeEvent(input$add_all_predictions, {
+    req(input$model_sel)
+    for (sel_model in input$model_sel) {
+      pred <- plot_data()[plot_data()$model == beautify_plot_label(sel_model), ]
+      if (input$ci_display == "Yes (Only use if self-hosted!)") {
+        colnames(pred) <- c("gait_cycle", "prediction", "95% CI lower", "95% CI upper", "CI Type", "target")
+      } else {
+        colnames(pred) <- c("gait_cycle", "prediction", "target")
+      }
+      new_pred_data <- cbind(
+        new_data()[rep(1, nrow(pred)), 1:(ncol(new_data()) - 1)],
         pred
       )
       if (nrow(reactivity_data()) == 0) {
