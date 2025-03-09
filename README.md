@@ -34,8 +34,8 @@ available for testing.
 For the full version that also supports Confidence Intervals (CI) you
 need to download the file containing the models with enhanced
 uncertainty quantification capabilities from [this permanent
-link](train_mod_sparse_sd.RDS). Follow the instructions below to install
-the package and run the app.
+link](https://drive.google.com/file/d/10ZDaWjfrGDGjcgfm78WLxzF0cDw_GPo6/view?usp=sharing).
+Follow the instructions below to install the package and run the app.
 
 1.  Clone the repository to your local machine and navigate to the
     directory in your terminal.
@@ -84,5 +84,5 @@ This README has been compiled on the
 
 ``` r
 Sys.time()
-#> [1] "2025-03-07 16:50:09 CET"
+#> [1] "2025-03-09 23:22:32 CET"
 ```

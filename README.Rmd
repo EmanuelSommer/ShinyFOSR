@@ -34,7 +34,7 @@ A [**free online version**](https://esommer.shinyapps.io/ShinyFOSR/) is availabl
 
 ### Fully Fledged Version
 
-For the full version that also supports Confidence Intervals (CI) you need to download the file containing the models with enhanced uncertainty quantification capabilities from [this permanent link](train_mod_sparse_sd.RDS). Follow the instructions below to install the package and run the app.
+For the full version that also supports Confidence Intervals (CI) you need to download the file containing the models with enhanced uncertainty quantification capabilities from [this permanent link](https://drive.google.com/file/d/10ZDaWjfrGDGjcgfm78WLxzF0cDw_GPo6/view?usp=sharing). Follow the instructions below to install the package and run the app.
 
 1. Clone the repository to your local machine and navigate to the directory in your terminal.
 
