@@ -107,7 +107,7 @@ app_ui <- function(request) {
       div(
           style = "position: absolute; top: 1px; right: 10px; display: flex; gap: 10px;",
           tags$a(
-            href = "https://example.com/paper", target = "_blank",
+            href = "https://www.medrxiv.org/content/10.1101/2025.03.19.25324241v1", target = "_blank",
             bsicons::bs_icon("file-earmark-pdf", style = "color: #DB4433;")
           ),
           tags$a(
